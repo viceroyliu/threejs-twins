@@ -1,19 +1,19 @@
 <template>
-  <div id="three"></div>
+<!--  <div id="three"></div>-->
 </template>
 
 <script setup>
 // import threeModel from "./threeModel.js";
-import threeModel from "./threeModel/index.js";
+// import threeModel from "./threeModel/index.js";
 import {onMounted} from "vue";
 
-onMounted(() => {
-  let three = document.querySelector('#three');
-  // 添加至dom
-  three.append(threeModel.domElement);
-  // 设置尺寸
-  threeModel.setSize(three.clientWidth, three.clientHeight);
-})
+// onMounted(() => {
+//   let three = document.querySelector('#three');
+//   // 添加至dom
+//   three.append(threeModel.domElement);
+//   // 设置尺寸
+//   threeModel.setSize(three.clientWidth, three.clientHeight);
+// })
 </script>
 
 <style scoped>
