@@ -1,0 +1,23 @@
+{
+  "name": "twins",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "dat.gui": "^0.7.9",
+    "http-server": "^14.1.1",
+    "mqtt": "^4.3.7",
+    "three": "^0.148.0",
+    "vite-plugin-optimizer": "^1.4.2",
+    "vue": "^3.2.45"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "vite": "^4.0.0"
+  }
+}
