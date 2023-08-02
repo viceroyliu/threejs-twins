@@ -3,7 +3,8 @@
 </template>
 
 <script setup>
-import threeModel from "./threeModel.js";
+// import threeModel from "./threeModel.js";
+import threeModel from "./threeModel/index.js";
 import {onMounted} from "vue";
 
 onMounted(() => {
