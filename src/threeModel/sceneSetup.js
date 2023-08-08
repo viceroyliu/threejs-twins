@@ -3,11 +3,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
-import { PCDLoader } from "three/examples/jsm/loaders/PCDLoader.js";
-import * as dat from "dat.gui";
 
 // Scene
-const scene = new THREE.Scene();
+const scene = new THREE.Scene();//创建场景
 scene.background = new THREE.CubeTextureLoader()
     .setPath('textures/cube/')
     .load(['posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg']);
@@ -19,7 +17,7 @@ mesh.position.set(0, -2.5, 0)
 mesh.receiveShadow = true;
 scene.add(mesh);
 
-// Lights
+// Lights 环境光
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight);
 

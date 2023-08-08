@@ -1,9 +1,10 @@
 // pcdLoader.js
 
 import * as THREE from 'three';
-import { PCDLoader } from "three/examples/jsm/loaders/PCDLoader.js";
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
-import { scene } from './sceneSetup';
+import {PCDLoader} from "three/examples/jsm/loaders/PCDLoader.js";
+import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader'
+import {scene, camera} from './sceneSetup';
+import {destroyModel, render} from "./main.js";
 
 const glasstexture = new THREE.TextureLoader().load('textures/glass.jpg');
 
@@ -43,49 +44,92 @@ wall.load('models/fbx/wall.fbx',
 );
 
 // PCD点云加载...
-const pcdloader = new PCDLoader();
-pcdloader.load(
-    'pcddemo/jiqi.pcd',
-    function (points) {
-      points.name  = 'cloud'
-      // console.log(points);
-      //缩放
-      points.scale.set(0.4, 0.4, 0.3)
-      //旋转
-      points.rotation.x = -Math.PI / 2
-      // points.rotation.y = Math.PI/2
-      points.rotation.z = Math.PI / 2
-      //位置
-      points.position.set(21.2, 8.5, 13.5)
-      // 模型点位大小
-      points.material.size = 0.0002;
+let pcdIndex = 0;
+let pcdUrl = `pcddemo/full_pointcloud/full_pointcloud(${pcdIndex}).pcd`;
+const pcdLoader = new PCDLoader();
+// 用来存储加载的PCD对象
+let currentPCD = null;
 
-      points.castShadow = true;
-      points.receiveShadow = true;
-      points.material.color = new THREE.Color(0x00ffff); // 模型颜色
+setInterval(() => {
+  pcdIndex++;
+  if (pcdIndex > 2) {
+    pcdIndex = 0;
+  }
+  console.log('-------', pcdIndex);
 
-      // points.material.vertexColors = true ;
-      // points.attributes.color  = new THREE.BufferAttribute(colors, 3);
+  pcdUrl = `pcddemo/full_pointcloud/full_pointcloud(${pcdIndex}).pcd`;
+  changeURL(pcdUrl);
+}, 10000)
 
-      scene.add(points);
 
-      // 构造盒子
-      let middle = new THREE.Vector3();
-      points.geometry.computeBoundingBox();
-      points.geometry.boundingBox.getCenter(middle);
+function changeURL(newURL) {
+  scene.remove(currentPCD);// 清除现有的点云数据
+  loaderPcdFun(newURL); // 加载新的URL
+}
 
-      points.applyMatrix4(
-          new THREE.Matrix4().makeTranslation(
-              -middle.x,
-              -middle.y,
-              -middle.z
-          )
-      );
+loaderPcdFun(pcdUrl);
+function loaderPcdFun(pcdUrl) {
+  console.log(pcdUrl);
+  pcdLoader.load(
+      // 'pcddemo/jiqi.pcd',
+      pcdUrl,
+      (points) => {
+        console.log(points)
+        currentPCD = points;
+        points.name = 'cloud'
+        //缩放
+        // points.scale.set(0.4, 0.4, 0.3)  // 原jiqi.pcd
+        points.scale.set(0.00355, 0.0025, 0.003)
+        //旋转
+        points.rotation.x = -Math.PI / 2
+        // points.rotation.y = Math.PI/2
+        points.rotation.z = Math.PI / 2
+        //位置
+        // points.position.set(21.2, 8.5, 13.5) // 原jiqi.pcd
+        // 模型点位大小
+        points.material.size = 0.0002;
 
-      // 比例
-      let largestDimension = Math.max(
-          points.geometry.boundingBox.max.x,
-          points.geometry.boundingBox.max.y,
-          points.geometry.boundingBox.max.z
-      );
-    })
+        points.castShadow = true;
+        points.receiveShadow = true;
+        // points.material.color = new THREE.Color(0x00ffff); // 原jiqi.pcd模型颜色
+
+        // points.material.vertexColors = true ;
+        // points.attributes.color  = new THREE.BufferAttribute(colors, 3);
+        points.geometry.center();
+        points.geometry.rotateX( Math.PI );
+        points.position.set(-2, -1, 8);
+        scene.add(points);
+
+        // 构造盒子
+        let middle = new THREE.Vector3();
+        points.geometry.computeBoundingBox();
+        points.geometry.boundingBox.getCenter(middle);
+
+        points.applyMatrix4(
+            new THREE.Matrix4().makeTranslation(
+                -middle.x,
+                -middle.y,
+                -middle.z
+            )
+        );
+
+        // 比例
+        let largestDimension = Math.max(
+            points.geometry.boundingBox.max.x,
+            points.geometry.boundingBox.max.y,
+            points.geometry.boundingBox.max.z
+        );
+        // camera.position.y = largestDimension;
+        render();
+
+        // console.log(largestDimension);
+      }, (xhr) => {
+        let load = xhr.loaded / xhr.total
+        if (load === 1) {
+          console.log('pcd模型加载完成');
+        }
+      },
+      (error) => {
+        console.log(error);
+      })
+}

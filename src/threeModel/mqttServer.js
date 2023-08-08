@@ -22,7 +22,6 @@ export function mqttServerFun( connectUrl,topic){
     })
   })
 
-// 断开的回调
   mqttServer.client.on("close", function(error) {
     if(!error){
       console.log("断开操作");

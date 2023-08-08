@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.0.0",
     "dat.gui": "^0.7.9",
     "http-server": "^14.1.1",
     "mqtt": "^4.3.7",

@@ -3,23 +3,42 @@
 import * as THREE from 'three';
 import {scene, renderer, camera, orbitControls} from './sceneSetup';
 import {mqttServerFun} from './mqttServer';
+import {initStompData} from './stompServer';
 import './models';
 import './pcdLoader';
 import './gui.js';
 
+// let animationId = null; // 动画id
+
+export function render() {
+  orbitControls.update();
+  requestAnimationFrame(render)  // requestAnimationFrame默认调用render函数60次，通过时间判断，降低renderer.render执行频率
+  renderer.render(scene, camera);
+}
+
 function init() {
   const connectUrl = 'ws://127.0.0.1:8083/mqtt';
   const topic = ['hangche1', 'hangche2'];
-  mqttServerFun(connectUrl,topic);
+  // mqttServerFun(connectUrl,topic);
+  // initStompData();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.append(renderer.domElement);
-
-  function render() {
-    requestAnimationFrame(render)
-    orbitControls.update()
-    renderer.render(scene, camera)
-  }
   render();
+}
+
+export function destroyModel() {
+  // renderer.dispose();
+  // renderer.forceContextLoss();
+  // renderer.content = null;
+  // cancelAnimationFrame(animationId);
+  // scene.clear();
+  // scene.traverse(function (obj) {
+  //   if (obj.type === 'Group') {
+  //     scene.remove(obj);
+  //   }
+  // });
+  // const gl = renderer.domElement.getContext('webgl');
+  // gl && gl.getExtension("WEBGL_lose_context").loseContext();
 }
 
 init();
