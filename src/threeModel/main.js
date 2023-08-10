@@ -20,25 +20,10 @@ function init() {
   const connectUrl = 'ws://127.0.0.1:8083/mqtt';
   const topic = ['hangche1', 'hangche2'];
   // mqttServerFun(connectUrl,topic);
-  // initStompData();
+  initStompData();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.append(renderer.domElement);
   render();
-}
-
-export function destroyModel() {
-  // renderer.dispose();
-  // renderer.forceContextLoss();
-  // renderer.content = null;
-  // cancelAnimationFrame(animationId);
-  // scene.clear();
-  // scene.traverse(function (obj) {
-  //   if (obj.type === 'Group') {
-  //     scene.remove(obj);
-  //   }
-  // });
-  // const gl = renderer.domElement.getContext('webgl');
-  // gl && gl.getExtension("WEBGL_lose_context").loseContext();
 }
 
 init();

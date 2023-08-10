@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import {PCDLoader} from "three/examples/jsm/loaders/PCDLoader.js";
 import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader'
 import {scene, camera} from './sceneSetup';
-import {destroyModel, render} from "./main.js";
+import {render} from "./main.js";
 
 const glasstexture = new THREE.TextureLoader().load('textures/glass.jpg');
 
@@ -55,7 +55,7 @@ setInterval(() => {
   if (pcdIndex > 2) {
     pcdIndex = 0;
   }
-  console.log('-------', pcdIndex);
+  // console.log('-------', pcdIndex);
 
   pcdUrl = `pcddemo/full_pointcloud/full_pointcloud(${pcdIndex}).pcd`;
   changeURL(pcdUrl);
@@ -68,18 +68,19 @@ function changeURL(newURL) {
 }
 
 loaderPcdFun(pcdUrl);
+
 function loaderPcdFun(pcdUrl) {
-  console.log(pcdUrl);
+  // console.log(pcdUrl);
   pcdLoader.load(
       // 'pcddemo/jiqi.pcd',
       pcdUrl,
       (points) => {
-        console.log(points)
+        // console.log(points)
         currentPCD = points;
         points.name = 'cloud'
         //缩放
         // points.scale.set(0.4, 0.4, 0.3)  // 原jiqi.pcd
-        points.scale.set(0.00355, 0.0025, 0.003)
+        points.scale.set(0.00287, 0.0025, 0.003)
         //旋转
         points.rotation.x = -Math.PI / 2
         // points.rotation.y = Math.PI/2
@@ -96,8 +97,8 @@ function loaderPcdFun(pcdUrl) {
         // points.material.vertexColors = true ;
         // points.attributes.color  = new THREE.BufferAttribute(colors, 3);
         points.geometry.center();
-        points.geometry.rotateX( Math.PI );
-        points.position.set(-2, -1, 8);
+        points.geometry.rotateX(Math.PI);
+        points.position.set(-2.2, -1.9, 8);
         scene.add(points);
 
         // 构造盒子
