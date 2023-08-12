@@ -13,7 +13,6 @@ function computePosition(n, trolleyXAxis = false, XAxis = true,) {
 }
 
 function subscribeFun(topicUrl, bigCarName, littleCarName) {
-  console.log(topicUrl)
   // 订阅，返回的对象有一个unsubscribe的方法，可以用来卸载订阅
   return stompClient.subscribe(topicUrl, function (message) {
     const payload = JSON.parse(message.body);
