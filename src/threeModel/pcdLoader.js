@@ -127,7 +127,7 @@ function loaderPcdFun(pcdUrl) {
       }, (xhr) => {
         let load = xhr.loaded / xhr.total
         if (load === 1) {
-          console.log('pcd模型加载完成');
+          // console.log('pcd模型加载完成');
         }
       },
       (error) => {

@@ -2,13 +2,10 @@
 
 import * as THREE from 'three';
 import {scene, renderer, camera, orbitControls} from './sceneSetup';
-import {mqttServerFun} from './mqttServer';
 import {initStompData} from './stompServer';
 import './models';
 import './pcdLoader';
 import './gui.js';
-
-// let animationId = null; // 动画id
 
 export function render() {
   orbitControls.update();
@@ -17,10 +14,20 @@ export function render() {
 }
 
 function init() {
-  const connectUrl = 'ws://127.0.0.1:8083/mqtt';
-  const topic = ['hangche1', 'hangche2'];
-  // mqttServerFun(connectUrl,topic);
-  initStompData();
+  const connectUrl = 'ws://47.105.44.218/ws';
+  // 'car1','car1-1'
+  const topics = [
+    {
+      topicUrl: 'jtgx/crane/position/1',
+      bigCarName: 'car1',
+      littleCarName: 'car1-1'
+    }, {
+      topicUrl: 'jtgx/crane/position/2',
+      bigCarName: 'car2',
+      littleCarName: 'car2-1'
+    }
+  ];
+  initStompData(connectUrl, topics);
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.append(renderer.domElement);
   render();
