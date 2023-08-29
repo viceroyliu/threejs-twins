@@ -1,7 +1,22 @@
-# Vue 3 + Vite
+## 💻 部署文档
+Node版本：v18.12.0
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+yarn版本：1.22.19
 
-## Recommended IDE Setup
+1. 安装包管理器
+> yarn只需要安装一次即可，如果已经安装过了，可以跳过这一步
+```bash
+npm install yarn -g
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+2. 安装依赖
+```bash
+yarn
+```
+
+3. 打包项目
+```bash
+yarn build
+```
+
+打包后的文件在`dist`目录下
