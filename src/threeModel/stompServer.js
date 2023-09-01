@@ -5,10 +5,14 @@ let stompClient;  // stomp实例
 
 // 计算位置 传过来的单位是毫米 (计算数据,是否为小车x,x轴)
 function computePosition(n, trolleyXAxis = false, XAxis = true,) {
-  const mNum = n / 1000;
-  const xNum = (mNum / 44 * 25 - 10).toFixed(0);
-  const yNum = (mNum / 33 * 10 - 5).toFixed(0);
-  if (trolleyXAxis) return Number(xNum) + 0.43;
+  const mNum = XAxis ? n / 10000 : n / 1000;  // x轴单位为0.1毫米，y轴单位1毫米，全部换算为米
+  // 1. X轴为85米，但threeJS需要分为25等份，并且初始值需要减10。
+  // const xNum = (mNum / 85 * 25 - 10).toFixed(0);
+  // 2. X轴的区间为52.4~85，小于52.4直接为0
+  const xNum = mNum - 52.4 > 0 ? ((mNum - 52.4) / 32.6 * 15).toFixed(0) : 0;
+  // Y轴为25米，但threeJS需要分为10等份，并且初始值需要减5
+  const yNum = (mNum / 25 * 10 - 5).toFixed(0);
+  if (trolleyXAxis) return Number(xNum) + 0.43; // 小车距离需要偏离
   return XAxis ? xNum : yNum;
 }
 
@@ -38,9 +42,8 @@ export function initStompData(connectUrl, topics) {
     // },
     reconnectDelay: 200, // 失败重连时间，200毫秒
     onConnect: function (frame) { // 连接成功的监听，订阅应该在他内部完成
-      // console.log(frame)
       // 批量订阅
-      topics.forEach(item=>{
+      topics.forEach(item => {
         subscribeFun(item.topicUrl, item.bigCarName, item.littleCarName);
       })
 

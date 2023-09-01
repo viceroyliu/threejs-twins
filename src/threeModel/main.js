@@ -19,11 +19,11 @@ function init() {
   // 'car1','car1-1'
   const topics = [
     {
-      topicUrl: 'jtgx/crane/position/1',
+      topicUrl: 'jtgx/crane/position/front/1',
       bigCarName: 'car1',
       littleCarName: 'car1-1'
     }, {
-      topicUrl: 'jtgx/crane/position/2',
+      topicUrl: 'jtgx/crane/position/front/2',
       bigCarName: 'car2',
       littleCarName: 'car2-1'
     }
