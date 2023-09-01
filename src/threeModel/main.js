@@ -22,7 +22,8 @@ function init() {
       topicUrl: 'jtgx/crane/position/front/1',
       bigCarName: 'car1',
       littleCarName: 'car1-1'
-    }, {
+    },
+    {
       topicUrl: 'jtgx/crane/position/front/2',
       bigCarName: 'car2',
       littleCarName: 'car2-1'
