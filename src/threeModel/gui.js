@@ -120,7 +120,7 @@ moveObj.add(disObj, 'move', -10, 15).name("行车2").onChange(e => {
 moveObj.add(disObj, 'move', -5, 5).name("小车2").onChange(e => {
   scene.traverse(function(obj){
     if(obj.name === 'car2-1'){
-      obj.position.z = e
+      obj.position.x = e
     }
   })
 })
