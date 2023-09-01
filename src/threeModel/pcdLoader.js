@@ -44,23 +44,14 @@ wall.load('models/fbx/wall.fbx',
 );
 
 // PCD点云加载...
-let pcdIndex = 0;
-let pcdUrl = `pcddemo/full_pointcloud/full_pointcloud(${pcdIndex}).pcd`;
+// id=要获取的雷达号，暂只支持所有all, voxel=点云精度，单位为cm
+let pcdUrl = `http://192.168.1.100:8080/full_pointcloud?id=all&voxel=20`;
 const pcdLoader = new PCDLoader();
-// 用来存储加载的PCD对象
-let currentPCD = null;
-
+let currentPCD = null;  // 用来存储加载的PCD对象
+// 一分钟变动一次
 setInterval(() => {
-  pcdIndex++;
-  if (pcdIndex > 2) {
-    pcdIndex = 0;
-  }
-  // console.log('-------', pcdIndex);
-
-  pcdUrl = `pcddemo/full_pointcloud/full_pointcloud(${pcdIndex}).pcd`;
   changeURL(pcdUrl);
-}, 10000)
-
+}, 1000 * 60)
 
 function changeURL(newURL) {
   scene.remove(currentPCD);// 清除现有的点云数据
@@ -70,9 +61,7 @@ function changeURL(newURL) {
 loaderPcdFun(pcdUrl);
 
 function loaderPcdFun(pcdUrl) {
-  // console.log(pcdUrl);
   pcdLoader.load(
-      // 'pcddemo/jiqi.pcd',
       pcdUrl,
       (points) => {
         // console.log(points)
