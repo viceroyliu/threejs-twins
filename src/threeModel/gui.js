@@ -1,6 +1,6 @@
 // GUI
 import * as dat from "dat.gui";
-import {camera, scene} from "./sceneSetup.js";
+import {camera, scene, orbitControls} from "./sceneSetup.js";
 
 const gui = new dat.GUI({ width:200 })
 // gui.hide()
@@ -32,13 +32,20 @@ const folder = gui.addFolder('修改视角')
 folder.add(new PositionGUI(camera.position, 'x'), 'modify', 0, 200).name('x')
 folder.add(new PositionGUI(camera.position, 'y'), 'modify', 0, 200).name('y')
 folder.add(new PositionGUI(camera.position, 'z'), 'modify', 0, 200).name('z')
-folder.open()
 
+// 在 disObj 对象中添加 lockView 属性
+orbitControls.enabled = !disObj.lockView;
+disObj.lockView = true;
+// 在 "修改视角" 文件夹中添加一个复选框
+folder.add(disObj, 'lockView').name('锁定视角').onChange(e => {
+  orbitControls.enabled = !e;  // 当 e 为 true 时禁用控制器，当 e 为 false 时启用控制器
+});
 
 folder.add(camera, 'updateMatrix').onChange(defaultCamera).name('恢复默认视角')
-
+folder.open()
 
 const displayObj = gui.addFolder('显示/隐藏')
+displayObj.open()
 
 displayObj.add(disObj, 'visible').name("墙壁").onChange(e => {
   scene.traverse(function(obj){
@@ -86,7 +93,7 @@ displayObj.add(disObj, 'visible').name("行车2").onChange(e => {
 })
 
 const moveObj = gui.addFolder('手动调试')
-moveObj.open()
+// moveObj.open()
 moveObj.add(disObj, 'move', -10, 15).name("行车1").onChange(e => {
   scene.traverse(function(obj){
     if(obj.name === 'car1'){
