@@ -15,7 +15,7 @@ export function render() {
 
 function init() {
   // const connectUrl = 'ws://47.105.44.218/ws'; // dev环境
-  const connectUrl = 'ws://localhost:8000/ws'; // prod环境
+  const connectUrl = 'ws://192.168.8.8:8000/ws'; // prod环境
   // 'car1','car1-1'
   const topics = [
     {
