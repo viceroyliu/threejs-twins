@@ -14,17 +14,17 @@ export function render() {
 }
 
 function init() {
-  // const connectUrl = 'ws://47.105.44.218/ws'; // dev环境
-  const connectUrl = 'ws://192.168.8.8:8000/ws'; // prod环境
+  const connectUrl = 'ws://47.100.100.190:8000/ws'; // dev环境
+  // const connectUrl = 'ws://192.168.8.8:8000/ws'; // prod环境
   // 'car1','car1-1'
   const topics = [
     {
-      topicUrl: 'jtgx/crane/position/front/1',
+      topicUrl: 'jtgx/crane/position/1',
       bigCarName: 'car1',
       littleCarName: 'car1-1'
     },
     {
-      topicUrl: 'jtgx/crane/position/front/2',
+      topicUrl: 'jtgx/crane/position/2',
       bigCarName: 'car2',
       littleCarName: 'car2-1'
     }

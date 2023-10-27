@@ -12,7 +12,7 @@ let texLoader = new THREE.TextureLoader()
 //   metalnessMap: texLoader.load("textures/jinshudu.jpg"),
 // });
 
-
+// 轨道
 const rail1 = new FBXLoader();
 rail1.load('models/fbx/rail.fbx',
     obj => {
@@ -31,7 +31,7 @@ rail1.load('models/fbx/rail.fbx',
       scene.add(obj);
     }
 );
-
+// 轨道
 const rail2 = new FBXLoader();
 rail2.load('models/fbx/rail.fbx',
     obj => {
@@ -51,6 +51,7 @@ rail2.load('models/fbx/rail.fbx',
     }
 );
 
+//料池
 const cangqu = new FBXLoader();
 cangqu.load('models/fbx/cangqu.fbx',
     obj => {

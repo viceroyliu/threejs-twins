@@ -3,16 +3,18 @@ import {scene} from "./sceneSetup.js";
 
 let stompClient;  // stomp实例
 
-// 计算位置 传过来的单位是毫米 (计算数据,是否为小车x,x轴)
-function computePosition(n, trolleyXAxis = false, XAxis = true,) {
-  const mNum = XAxis ? n / 10000 : n / 1000;  // x轴单位为0.1毫米，y轴单位1毫米，全部换算为米
-  // 1. X轴为85米，但threeJS需要分为25等份，并且初始值需要减10。
-  // const xNum = (mNum / 85 * 25 - 10).toFixed(0);
-  // 2. X轴的区间为52.4~85，小于52.4直接为0
-  const xNum = mNum - 52.4 > 0 ? ((mNum - 52.4) / 32.6 * 15).toFixed(0) : 0;
+// 计算位置 传过来的单位是毫米 (天车编号,计算数据,是否为小车x,x轴)
+function computePosition(id,n, trolleyXAxis = false, XAxis = true,) {
+  const mNum =  n / 1000;  // 单位1毫米，全部换算为米
+  // 1车可移动距离为38米，但threeJS需要分为17等份，初始值0。
+  // 2车可移动距离为80米，但threeJS需要分为33等份，并且初始值需要减16.5。
+  const oneNum = mNum / 38 * 17;
+  const twoNum = mNum / 80 * 33 - 16.5;
+  const xNum = (id === 1 ? oneNum:twoNum).toFixed(0);
   // Y轴为25米，但threeJS需要分为10等份，并且初始值需要减5
   const yNum = (mNum / 25 * 10 - 5).toFixed(0);
-  if (trolleyXAxis) return Number(xNum) + 0.43; // 小车距离需要偏离
+
+  if (trolleyXAxis) return Number(xNum) - 0.2; // 小车距离需要偏离0.2
   return XAxis ? xNum : yNum;
 }
 
@@ -20,14 +22,16 @@ function subscribeFun(topicUrl, bigCarName, littleCarName) {
   // 订阅，返回的对象有一个unsubscribe的方法，可以用来卸载订阅
   return stompClient.subscribe(topicUrl, function (message) {
     const payload = JSON.parse(message.body);
-    // 更改行车1
     scene.traverse(function (obj) {
       if (obj.name === bigCarName) {
-        obj.position.z = computePosition(payload.crane_x)
+        // 行车位置
+        obj.position.z = computePosition(payload.crane_no,payload.crane_x)
       }
       if (obj.name === littleCarName) {
-        obj.position.z = computePosition(payload.crane_x, true);
-        obj.position.x = computePosition(payload.crane_y, false, false);
+        // 小车位置
+        obj.position.z = computePosition(payload.crane_no,payload.crane_x, true);
+        // 小车偏移距离
+        obj.position.x = computePosition(payload.crane_no,payload.crane_y, false, false);
       }
     })
   });

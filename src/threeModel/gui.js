@@ -94,13 +94,13 @@ displayObj.add(disObj, 'visible').name("行车2").onChange(e => {
 
 const moveObj = gui.addFolder('手动调试')
 // moveObj.open()
-moveObj.add(disObj, 'move', -10, 15).name("行车1").onChange(e => {
+moveObj.add(disObj, 'move', 0, 17).name("行车1").onChange(e => {
   scene.traverse(function(obj){
     if(obj.name === 'car1'){
       obj.position.z = e
     }
     if(obj.name === 'car1-1'){
-      obj.position.z = e+0.43
+      obj.position.z = e - 0.2
     }
   })
 })
@@ -113,13 +113,13 @@ moveObj.add(disObj, 'move', -5, 5).name("小车1").onChange(e => {
   })
 })
 
-moveObj.add(disObj, 'move', -10, 15).name("行车2").onChange(e => {
+moveObj.add(disObj, 'move', -16.5, 16.5).name("行车2").onChange(e => {
   scene.traverse(function(obj){
     if(obj.name === 'car2'){
       obj.position.z = e
     }
     if(obj.name === 'car2-1'){
-      obj.position.z = e +0.43
+      obj.position.z = e - 0.2
     }
   })
 })
