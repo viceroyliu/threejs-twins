@@ -3,16 +3,16 @@ import {scene} from "./sceneSetup.js";
 
 let stompClient;  // stomp实例
 
-// 计算位置 传过来的单位是毫米 (天车编号,计算数据,是否为小车x,x轴)
+// 计算位置 传过来的单位是毫米 (天车编号,计算数据,是否为小车x,是否为x轴)
 function computePosition(id,n, trolleyXAxis = false, XAxis = true,) {
   const mNum =  n / 1000;  // 单位1毫米，全部换算为米
   // 1车可移动距离为38米，但threeJS需要分为17等份，初始值0。
   // 2车可移动距离为80米，但threeJS需要分为33等份，并且初始值需要减16.5。
   const oneNum = mNum / 38 * 17;
   const twoNum = mNum / 80 * 33 - 16.5;
-  const xNum = (id === 1 ? oneNum:twoNum).toFixed(0);
+  const xNum = (id === 1 ? oneNum:twoNum).toFixed(2);
   // Y轴为25米，但threeJS需要分为10等份，并且初始值需要减5
-  const yNum = (mNum / 25 * 10 - 5).toFixed(0);
+  const yNum = (mNum / 25 * 10 - 5).toFixed(2);
 
   if (trolleyXAxis) return Number(xNum) - 0.2; // 小车距离需要偏离0.2
   return XAxis ? xNum : yNum;
@@ -22,6 +22,7 @@ function subscribeFun(topicUrl, bigCarName, littleCarName) {
   // 订阅，返回的对象有一个unsubscribe的方法，可以用来卸载订阅
   return stompClient.subscribe(topicUrl, function (message) {
     const payload = JSON.parse(message.body);
+    console.log(payload)
     scene.traverse(function (obj) {
       if (obj.name === bigCarName) {
         // 行车位置
